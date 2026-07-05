@@ -1,0 +1,75 @@
+{
+  "$schema": "https://sjgant80-hub.github.io/fallhub/modules/manifest.schema.json",
+  "name": "kardv5",
+  "version": "0.5.0",
+  "publisher": "AI-Native Solutions",
+  "publisher_url": "https://www.ai-nativesolutions.com/",
+  "licence": "MIT",
+  "description": "Sovereign paralegal · dispute drafting · tribunal skeletons · negotiation letters · handles adverse-party edge cases. Tax tribunal · employment tribunal · tenancy disputes · consumer rights disputes. Grounded in FallBrief weaves + UK case-law corpus.",
+  "provides": [
+    "dispute_drafting",
+    "tribunal_skeletons",
+    "negotiation_letters",
+    "counter_argument_generation",
+    "adverse_party_handling"
+  ],
+  "tools": [
+    {
+      "name": "draft_tribunal_skeleton",
+      "description": "Draft a tribunal skeleton argument for a specific dispute category",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dispute_category": { "type": "string", "enum": ["employment", "tax", "tenancy", "consumer_rights", "commercial"] },
+          "facts": { "type": "string" },
+          "desired_outcome": { "type": "string" }
+        },
+        "required": ["dispute_category", "facts"]
+      },
+      "guardrails": { "auto_low": false, "auto_med": false },
+      "reversible_ms": 3600000
+    },
+    {
+      "name": "draft_negotiation_letter",
+      "description": "Draft a negotiation letter (settlement offer, dispute response, without-prejudice)",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "recipient": { "type": "string" },
+          "situation": { "type": "string" },
+          "offer_gbp": { "type": "number" }
+        },
+        "required": ["recipient", "situation"]
+      },
+      "guardrails": { "auto_low": false, "auto_med": false },
+      "reversible_ms": 3600000
+    },
+    {
+      "name": "counter_argue",
+      "description": "Generate the adverse party's likely arguments and prepare your counter",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "your_argument": { "type": "string" },
+          "context": { "type": "object" }
+        },
+        "required": ["your_argument"]
+      },
+      "guardrails": { "always_auto": true },
+      "reversible_ms": 0
+    }
+  ],
+  "kernel_extension": {
+    "legal_context": {
+      "jurisdiction": "GB",
+      "disclaimers_required": ["research and drafting only, not legal advice"]
+    }
+  },
+  "compatible_verticals": ["*"],
+  "requires": ["byok_adapter@>=1.0.0", "kernel", "fallbrief@>=1.0.0"],
+  "ui_surfaces": ["KardV5.html"],
+  "mit": true,
+  "konomi_seal": "◊·κ=1",
+  "estate": true,
+  "status": "spec"
+}
